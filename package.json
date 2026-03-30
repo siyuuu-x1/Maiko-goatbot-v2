@@ -51,8 +51,7 @@
 		"tinyurl": "^1.1.7",
 		"totp-generator": "^0.0.13",
 		"websocket-stream": "^5.5.2",
-		"ws3-fca": "^3.5.2",
-		"fca-siyuu": "^0.0.1"
+		"ws3-fca": "^3.5.2"
 	},
 	"scripts": {
 		"start": "set NODE_ENV=&& node index.js",
