@@ -52,7 +52,7 @@
 		"totp-generator": "^0.0.13",
 		"websocket-stream": "^5.5.2",
 		"ws3-fca": "^3.5.2",
-		"fca-saim-x69x": "^0.0.1"
+		"fca-siyuu": "^0.0.1"
 	},
 	"scripts": {
 		"start": "set NODE_ENV=&& node index.js",
