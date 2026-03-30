@@ -1,5 +1,5 @@
 <div align="center">
-  <pic src="https://i.imgur.com/0S87ghT.jpeg" alt="banner" width="100%">
+  <pic src="https://files.catbox.moe/mgb7ob.jpg" alt="banner" width="100%">
 
   <h1>
   👋 Hi, I’AM 
