@@ -1,127 +1,128 @@
 <div align="center">
-  <pic src="https://files.catbox.moe/mgb7ob.jpg" alt="banner" width="100%">
 
-  <h1>
-  👋 Hi, I’AM 
-  <span style="
-    font-family: 'Trebuchet MS', 'Segoe UI', Arial, sans-serif;
-    font-weight: 800;
-    background: linear-gradient(90deg, #7F00FF, #00C6FF);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: 1px;
-  ">
-    SHAHARIYA AHMMED SIYAM (SIYUUUU)
-  </span>
+<!-- 🔥 Animated Banner -->
+<img src="https://files.catbox.moe/mgb7ob.jpg" width="100%"/>
+
+<!-- 👋 Name -->
+<h1>
+  👋 Hi, I'm 
+  <span style="color:#7F00FF;">SHAHARIYA AHMMED SIYAM</span>
 </h1>
 
-  <h3>
-    🚀 Messenger Bot Developer | GoatBot Creator | Always Learning
-  </h3>
+<!-- ⚡ Typing Animation -->
+<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=22&duration=3000&color=00C6FF&center=true&vCenter=true&width=500&lines=Messenger+Bot+Developer;GoatBot+Expert;Node.js+Lover;Always+Learning+New+Things" />
 
-  <p>
-    <img src="https://i.ibb.co/RQ28H2p/banner.png" width="140px"
-      style="border-radius:50%; border:3px solid #00c8ff">
-  </p>
+<br><br>
 
-  <p>
-    I am a <strong>simple but passionate Messenger Bot developer</strong> from Bangladesh 🇧🇩.  
-    I mainly work with <strong>Node.js</strong> and build, customize, and improve  
-    <strong>Facebook Messenger bots</strong> using GoatBot frameworks.
-  </p>
+<!-- 🧑 Profile -->
+<img src="https://i.ibb.co/RQ28H2p/banner.png" width="130px" style="border-radius:50%; border:3px solid #00c8ff"/>
 
-  <p>
-    I don’t call myself a professional developer.  
-    Most of what I build comes from <strong>learning, experimenting, and fixing mistakes</strong>.  
-    I believe improvement matters more than perfection.
-  </p>
+<p>
+  💙 Passionate <strong>Messenger Bot Developer</strong> from Bangladesh 🇧🇩 <br>
+  ⚡ I build & customize GoatBots using <strong>Node.js</strong> <br>
+  🧠 Learning by <strong>fixing mistakes & experimenting</strong>
+</p>
+
 </div>
 
 ---
 
-<div align="center">
+## 🚀 About Me
 
-## 🌟 What I Do
-
-</div>
-
-- 🤖 Create & customize **Messenger GoatBots**
-- 🛠️ Fix bugs, errors & broken commands
-- ⚙️ Modify existing bot systems for better performance
-- 🧠 Learn continuously using **ChatGPT & Gemini**
-- 🤝 Prefer **teamwork over working alone**
-- 📈 Improve small things step by step
+- 🤖 GoatBot Developer (Advanced)
+- ⚙️ System Modifier & Bug Fixer
+- 🧠 Self-Learner (ChatGPT + Gemini)
+- 🤝 Love Teamwork
+- 🔥 Always upgrading myself
 
 ---
 
+## 🧰 Skills
+
 <div align="center">
 
-## 🧰 Skills & Tools
+<img src="https://skillicons.dev/icons?i=nodejs,js,html,css,github,vscode" />
 
 </div>
 
 | Skill | Level |
-|------|-------|
-| 🟢 Node.js | Intermediate |
-| 🟢 Messenger Bot Development | Advanced |
-| 🟡 HTML / UI | Basic–Intermediate |
-| 🟢 Bot Command Logic | Advanced |
-| 🟡 Hosting / Deployment | Basic |
-| 🟢 Debugging & Fixing | Strong |
+|------|------|
+| 🟢 Node.js | Advanced |
+| 🟢 Messenger Bot | Expert |
+| 🟢 Command Logic | Expert |
+| 🟡 UI Design | Intermediate |
+| 🟡 Hosting | Basic |
+| 🟢 Debugging | Strong |
 
 ---
 
-<div align="center">
-
-## 🚀 Philosophy
-
-</div>
-
-> 💬 *“I learn from my mistakes,  
-> grow with my brothers’ support,  
-> and believe teamwork builds better results.”*
-
----
+## 🎮 Play Snake Game (Yes inside profile 😎)
 
 <div align="center">
 
-## 📬 Contact Me
-
-<a href="https://m.me/siyuuuuuuuuuuuuuuu" target="_blank">
-  <img src="https://img.shields.io/badge/Messenger-0084FF?style=for-the-badge&logo=messenger&logoColor=white" />
-</a>
-
-<a href="https://www.facebook.com/siyuuuuuuuuuuu" target="_blank">
-  <img src="https://img.shields.io/badge/Facebook-1877F2?style=for-the-badge&logo=facebook&logoColor=white" />
-</a>
-
-<a href="https://www.instagram.com/phantom_99xs?igsh=MzNlNGNkZWQ4Mg==" target="_blank">
-  <img src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white" />
-</a>
-
-<a href="https://wa.me/8801603604722" target="_blank">
-  <img src="https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" />
-</a>
+<img src="https://raw.githubusercontent.com/Platane/snk/output/github-contribution-grid-snake.svg" />
 
 </div>
 
 ---
 
+## 📊 GitHub Stats
+
 <div align="center">
+
+<img src="https://github-readme-stats.vercel.app/api?username=YOUR_USERNAME&show_icons=true&theme=tokyonight" />
+
+<img src="https://github-readme-streak-stats.herokuapp.com/?user=YOUR_USERNAME&theme=tokyonight" />
+
+</div>
+
+---
+
+## 🧠 Philosophy
+
+<div align="center">
+
+> 💬 *"I learn from mistakes, grow with my team, and improve every single day."*
+
+</div>
+
+---
+
+## 🌐 Connect With Me
+
+<div align="center">
+
+<a href="https://m.me/siyuuuuuuuuuuuuuuu">
+  <img src="https://img.shields.io/badge/Messenger-0084FF?style=for-the-badge&logo=messenger&logoColor=white"/>
+</a>
+
+<a href="https://www.facebook.com/siyuuuuuuuuuuuuuuu">
+  <img src="https://img.shields.io/badge/Facebook-1877F2?style=for-the-badge&logo=facebook&logoColor=white"/>
+</a>
+
+<a href="https://www.instagram.com/phantom_99xs">
+  <img src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white"/>
+</a>
+
+<a href="https://wa.me/8801603604722">
+  <img src="https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white"/>
+</a>
+
+</div>
+
+---
 
 ## ⚠️ Note
 
-</div>
-
-- ❌ I don’t fake professionalism  
-- ✅ I value honesty & continuous learning  
-- 🔥 My goal: **be better than yesterday**
+- ❌ No fake skills  
+- ✅ Real learning  
+- 🔥 Goal: Be better than yesterday  
 
 ---
 
 <div align="center">
 
-✨ Thanks for visiting my profile  
-⭐ Support & share if you like my work
+✨ Thanks for visiting  
+💙 SIYUUUU
 
 </div>
