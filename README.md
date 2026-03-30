@@ -21,7 +21,7 @@
 - 🇧🇩 Developer from Bangladesh  
 - 🤖 Specialized in Messenger Bot Development  
 - ⚙️ Love modifying and optimizing systems  
-- 🧠 Self-learner using ChatGPT & real experience  
+- 🧠 Self-learner using ChatGPT, GEMINI, GROK , etc & real experience  
 - 🔥 Focused on continuous improvement  
 
 ---
