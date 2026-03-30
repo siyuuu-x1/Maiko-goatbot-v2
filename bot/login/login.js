@@ -1,5 +1,5 @@
 // set bash title
-process.stdout.write("\x1b]2;Goat Bot V2 - Made by NTKhang Fixed by siyuu\x1b\x5c");
+process.stdout.write("\x1b]2;Goat Bot V2 - Made by NTKhang, Updated by Saimx69x\x1b\x5c");
 const defaultRequire = require;
 
 function decode(text) {
@@ -15,20 +15,15 @@ const path = defaultRequire("path");
 const readline = defaultRequire("readline");
 const fs = defaultRequire("fs-extra");
 const toptp = defaultRequire("totp-generator");
-const login = require("@dongdev/fca-unofficial");
-
-//const login = require(`${process.cwd()}/fb-chat-api`);
+const login = defaultRequire(`${process.cwd()}/fb-chat-api`);
 const qr = new (defaultRequire("qrcode-reader"));
 const Canvas = defaultRequire("canvas");
 const https = defaultRequire("https");
 
-async function getName(userID, api) {
+async function getName(userID) {
 	try {
-		if (api && api.getUserInfo) {
-			const userInfo = await api.getUserInfo(userID);
-			return userInfo[userID]?.name || null;
-		}
-		return null;
+		const user = await axios.post(`https://www.facebook.com/api/graphql/?q=${`node(${userID}){name}`}`);
+		return user.data[userID].name;
 	}
 	catch (error) {
 		return null;
@@ -86,17 +81,6 @@ const titles = [
 	],
 	[
 		"GOATBOT V2"
-	],
-	[
-		"███████╗██╗██╗   ██╗██╗   ██╗██╗   ██╗██╗   ██╗",
-		"██╔════╝██║╚██╗ ██╔╝██║   ██║██║   ██║██║   ██║",
-		"███████╗██║ ╚████╔╝ ██║   ██║██║   ██║██║   ██║",
-		"╚════██║██║  ╚██╔╝  ██║   ██║██║   ██║██║   ██║",
-		"███████║██║   ██║   ╚██████╔╝╚██████╔╝╚██████╔╝",
-		"╚══════╝╚═╝   ╚═╝    ╚═════╝  ╚═════╝  ╚═════╝"
-	],
-	[
-		"SIYUUU'S GOATBOT"
 	]
 ];
 const maxWidth = process.stdout.columns;
@@ -114,7 +98,7 @@ for (const text of title) {
 	const textColor = gradient("#FA8BFF", "#2BD2FF", "#2BFF88")(text);
 	centerText(textColor, text.length);
 }
-let subTitle = `GoatBot V2@${currentVersion}- A simple Bot chat messenger use personal account`;
+let subTitle = `Sx69x GoatBot V2@${currentVersion}- A simple Bot chat messenger use personal account`;
 const subTitleArray = [];
 if (subTitle.length > maxWidth) {
 	while (subTitle.length > maxWidth) {
@@ -129,7 +113,7 @@ else {
 	subTitleArray.push(subTitle);
 }
 const author = ("Created by NTKhang with ♡");
-const srcUrl = ("Source code: https://github.com/Team-Calyx/GoatBot-V2");
+const srcUrl = ("Source code: https://github.com/ntkhang03/Goat-Bot-V2");
 const fakeRelease = ("ALL VERSIONS NOT RELEASED HERE ARE FAKE");
 for (const t of subTitleArray) {
 	const textColor2 = gradient("#9F98E8", "#AFF6CF")(t);
@@ -542,7 +526,7 @@ async function getAppStateToLogin(loginWithEmail) {
 				const character = '>';
 				function showOptions() {
 					rl.output.write(`\r${options.map((option, index) => index === currentOption ? colors.blueBright(`${character} (${index + 1}) ${option}`) : `  (${index + 1}) ${option}`).join('\n')}\u001B`);
-					rl.write('\u001B[?25l'); 
+					rl.write('\u001B[?25l'); // hides cursor
 				}
 				rl.input.on('keypress', (_, key) => {
 					if (key.name === 'up') {
@@ -555,7 +539,7 @@ async function getAppStateToLogin(loginWithEmail) {
 						const number = parseInt(key.name);
 						if (number >= 0 && number <= options.length)
 							currentOption = number - 1;
-						process.stdout.write('\x1b[1D'); 
+						process.stdout.write('\033[1D'); // delete the character
 					}
 					else if (key.name === 'enter' || key.name === 'return') {
 						rl.input.removeAllListeners('keypress');
@@ -565,7 +549,7 @@ async function getAppStateToLogin(loginWithEmail) {
 						resolve();
 					}
 					else {
-						process.stdout.write('\x1b[1D'); 
+						process.stdout.write('\033[1D'); // delete the character
 					}
 
 					clearLines(options.length);
@@ -737,7 +721,7 @@ async function startBot(loginWithEmail) {
 			logColor("#f5ab00", createLine("BOT INFO"));
 			log.info("NODE VERSION", process.version);
 			log.info("PROJECT VERSION", currentVersion);
-			log.info("BOT ID", `${global.botID} - ${await getName(global.botID, api)}`);
+			log.info("BOT ID", `${global.botID} - ${await getName(global.botID)}`);
 			log.info("PREFIX", global.GoatBot.config.prefix);
 			log.info("LANGUAGE", global.GoatBot.config.language);
 			log.info("BOT NICK NAME", global.GoatBot.config.nickNameBot || "GOAT BOT");
