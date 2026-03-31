@@ -27,7 +27,6 @@ const REQUIRED_PACKAGES = [
   "@distube/ytdl-core",
   "fb-downloader-scrapper",
   "instagram-url-direct",
-  "tiktok-downloader-full",
   "systeminformation",
   "os-utils",
   "axios",
