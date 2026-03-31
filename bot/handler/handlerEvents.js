@@ -1,4 +1,4 @@
-// HandlerEvent customized version by Eren.
+// HandlerEvent customized version by siyuuu. dont change my credit 💌
 const fs = require("fs-extra");
 const nullAndUndefined = [undefined, null];
 
