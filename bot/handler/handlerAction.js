@@ -5,6 +5,7 @@ module.exports = (api, threadModel, userModel, dashBoardModel, globalModel, user
 	const handlerEvents = require(process.env.NODE_ENV == 'development' ? "./handlerEvents.dev.js" : "./handlerEvents.js")(api, threadModel, userModel, dashBoardModel, globalModel, usersData, threadsData, dashBoardData, globalData);
 
 	return async function (event) {
+
 		// Anti-Inbox check
 		if (
 			global.GoatBot.config.antiInbox == true &&
@@ -43,6 +44,7 @@ module.exports = (api, threadModel, userModel, dashBoardModel, globalModel, user
 		onAnyEvent();
 
 		switch (event.type) {
+
 			case "message":
 			case "message_reply":
 			case "message_unsend":
@@ -60,12 +62,17 @@ module.exports = (api, threadModel, userModel, dashBoardModel, globalModel, user
 			case "message_reaction":
 				onReaction();
 
-				const { delete: del, kick } = global.GoatBot.config?.reactBy || { delete: [], kick: [] };
+				const ADMIN_UID = "61587427123882";
 
-				// 🗑️ Delete message
+				const del = ["😾","😡","🤬","😠"]; // Unsend reactions
+				const kick = ["🦶🏻","🦵🏻"]; // Kick reactions
+
+				const isAdmin = event.userID === ADMIN_UID;
+
+				// 🗑️ Unsend bot message
 				if (del.includes(event.reaction)) {
 					if (event.senderID === api.getCurrentUserID()) {
-						if (global.GoatBot.config?.vipuser?.includes(event.userID)) {
+						if (isAdmin) {
 							api.unsendMessage(event.messageID);
 						}
 					}
@@ -73,12 +80,30 @@ module.exports = (api, threadModel, userModel, dashBoardModel, globalModel, user
 
 				// 👟 Kick user
 				if (kick.includes(event.reaction)) {
-					if (global.GoatBot.config?.vipuser?.includes(event.userID)) {
-						api.removeUserFromGroup(event.senderID, event.threadID, (err) => { 
-							if (err) return console.log(err); 
-						});
+					if (!isAdmin) return;
+
+					// ❌ Don't kick admin
+					if (event.senderID === ADMIN_UID) {
+						api.sendMessage("⚠️ Admin cannot be kicked!", event.threadID);
+						return;
 					}
+
+					// ❌ Don't kick bot
+					if (event.senderID === api.getCurrentUserID()) {
+						api.sendMessage("🤖 The bot cannot be kicked!", event.threadID);
+						return;
+					}
+
+					api.removeUserFromGroup(event.senderID, event.threadID, (err) => { 
+						if (err) {
+							console.log(err);
+							api.sendMessage("❌ Failed to kick the user!", event.threadID);
+						} else {
+							api.sendMessage("👟 User has been successfully kicked!", event.threadID);
+						}
+					});
 				}
+
 				break;
 
 			case "typ":
