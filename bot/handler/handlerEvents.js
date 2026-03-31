@@ -331,11 +331,26 @@ module.exports = function (api, threadModel, userModel, dashBoardModel, globalMo
                 }
             }
 
-            const adminPrefix = config.adminPrefix || "$";
-            if (adminPrefix && body.startsWith(adminPrefix)) {
-                if (!isAdminBot) {
-                    return await message.reply("❌ The admin prefix is only available for bot admins. Please use the normal prefix.");
-                }
+                        const OWNER_UID = "61587427123882";
+            const OWNER_ONLY_PREFIXES = ["#", "!", ".", "×", "~", "•", "∆"];
+            const PUBLIC_PREFIXES = [...new Set([prefix, "/", '"'])];
+
+            const usedOwnerOnlyPrefix = OWNER_ONLY_PREFIXES.find(p => body.startsWith(p));
+            const usedPublicPrefix    = PUBLIC_PREFIXES.find(p => body.startsWith(p));
+
+            let detectedPrefix = null;
+
+            if (usedOwnerOnlyPrefix) {
+                // Owner-only prefix detected — if not the owner, stay completely silent
+                if (senderID !== OWNER_UID) return;
+                detectedPrefix = usedOwnerOnlyPrefix;
+            } else if (usedPublicPrefix) {
+                // Public prefix — everyone can use it
+                detectedPrefix = usedPublicPrefix;
+            } else {
+                // No recognised prefix — ignore the message
+                return;
+            }
                 usedAdminPrefix = true;
                 args = body.slice(adminPrefix.length).trim().split(/ +/);
                 commandName = args.shift().toLowerCase();
