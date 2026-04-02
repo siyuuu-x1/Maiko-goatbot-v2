@@ -258,6 +258,18 @@ function isNumber(value) {
         return !isNaN(parseFloat(value));
 }
 
+function compareVersion(version1, version2) {
+        const v1 = version1.split(".");
+        const v2 = version2.split(".");
+        for (let i = 0; i < 3; i++) {
+                if (parseInt(v1[i]) > parseInt(v2[i]))
+                        return 1;
+                if (parseInt(v1[i]) < parseInt(v2[i]))
+                        return -1;
+        }
+        return 0;
+}
+
 function jsonStringifyColor(obj, filter, indent, level) {
         // source: https://www.npmjs.com/package/node-json-color-stringify
         indent = indent || 0;
@@ -332,10 +344,35 @@ function message(api, event) {
                         err = utils.removeHomeDir(`${err.name || err.error}: ${err.message}`);
                 return await api.sendMessage(utils.getText("utils", "errorOccurred", err), event.threadID, event.messageID);
         }
+
+        // Helper function to send typing indicator
+        async function sendTypingIndicator(threadID, duration = 2000) {
+                try {
+                        // Enable typing indicator
+                        await api.sendTypingIndicator(true, threadID);
+                        // Wait for specified duration to simulate typing
+                        await new Promise(resolve => setTimeout(resolve, duration));
+                        // Disable typing indicator
+                        await api.sendTypingIndicator(false, threadID);
+                } catch (err) {
+                        // Silently fail - typing indicator is not critical
+                }
+        }
+
         return {
-                send: async (form, callback) => {
+                send: async (form, callback, options = {}) => {
                         try {
                                 global.statusAccountBot = 'good';
+
+                                // Check if typing indicator is enabled in config
+                                const typingEnabled = global.GoatBot?.config?.typingIndicator?.enable !== false;
+                                const typingDuration = global.GoatBot?.config?.typingIndicator?.duration || 2000;
+
+                                // Send typing indicator if enabled and it's a text message
+                                if (typingEnabled && (typeof form === 'string' || form.body)) {
+                                        await sendTypingIndicator(event.threadID, typingDuration);
+                                }
+
                                 return await api.sendMessage(form, event.threadID, callback);
                         }
                         catch (err) {
@@ -345,9 +382,19 @@ function message(api, event) {
                                 }
                         }
                 },
-                reply: async (form, callback) => {
+                reply: async (form, callback, options = {}) => {
                         try {
                                 global.statusAccountBot = 'good';
+
+                                // Check if typing indicator is enabled in config
+                                const typingEnabled = global.GoatBot?.config?.typingIndicator?.enable !== false;
+                                const typingDuration = global.GoatBot?.config?.typingIndicator?.duration || 2000;
+
+                                // Send typing indicator if enabled and it's a text message
+                                if (typingEnabled && (typeof form === 'string' || form.body)) {
+                                        await sendTypingIndicator(event.threadID, typingDuration);
+                                }
+
                                 return await api.sendMessage(form, event.threadID, callback, event.messageID);
                         }
                         catch (err) {
@@ -509,23 +556,18 @@ async function getStreamFromURL(url = "", pathName = "", options = {}) {
                 options = pathName;
                 pathName = "";
         }
-        try {
-                if (!url || typeof url !== "string")
-                        throw new Error(`The first argument (url) must be a string`);
-                const response = await axios({
-                        url,
-                        method: "GET",
-                        responseType: "stream",
-                        ...options
-                });
-                if (!pathName)
-                        pathName = utils.randomString(10) + (response.headers["content-type"] ? '.' + utils.getExtFromMimeType(response.headers["content-type"]) : ".noext");
-                response.data.path = pathName;
-                return response.data;
-        }
-        catch (err) {
-                throw err;
-        }
+        if (!url || typeof url !== "string")
+                throw new Error(`The first argument (url) must be a string`);
+        const response = await axios({
+                url,
+                method: "GET",
+                responseType: "stream",
+                ...options
+        });
+        if (!pathName)
+                pathName = utils.randomString(10) + (response.headers["content-type"] ? '.' + utils.getExtFromMimeType(response.headers["content-type"]) : ".noext");
+        response.data.path = pathName;
+        return response.data;
 }
 
 async function translate(text, lang) {
@@ -869,6 +911,7 @@ const utils = {
         getText: require("./languages/makeFuncGetLangs.js"),
         getTime,
         getType,
+        compareVersion,
         isHexColor,
         isNumber,
         jsonStringifyColor,
