@@ -1,128 +1,39 @@
 /**
- *render but best Replit Optimized GoatBot Runner + Auto Installer
- * Original: NTKhang
- * Optimized by Siyuuuuu
- * Auto-loaded system 
- * no eny problem 
+ * @author NTKhang & Modded by NeoKEX
+ * ! The source code is written by NTKhang, please don't change the author's name everywhere. Thank you for using
+ * ! Official source code: https://github.com/ntkhang03/Goat-Bot-V2
+ * ! If you do not download the source code from the above address, you are using an unknown version and at risk of having your account hacked
+ *
+ * English:
+ * ! Please do not change the below code, it is very important for the project.
+ * It is my motivation to maintain and develop the project for free.
+ * ! If you change it, you will be banned forever
+ * Thank you for using
+ *
+ * Vietnamese:
+ * ! Vui lòng không thay đổi mã bên dưới, nó rất quan trọng đối với dự án.
+ * Nó là động lực để tôi duy trì và phát triển dự án miễn phí.
+ * ! Nếu thay đổi nó, bạn sẽ bị cấm vĩnh viễn
+ * Cảm ơn bạn đã sử dụng
  */
 
-const { spawn, execSync } = require("child_process");
-const express = require("express");
-const os = require("os");
+const { spawn } = require("child_process");
 const log = require("./logger/log.js");
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+function startProject() {
+        const child = spawn("node", ["Goat.js"], {
+                cwd: __dirname,
+                stdio: "inherit",
+                shell: true
+        });
 
-// ─── CONFIGURATION ───
-const MEMORY_LIMIT_MB = 500;
-const MEMORY_CHECK_INTERVAL = 20000;
-
-/**
- * AUTO INSTALLER SYSTEM
- * Missing modules ekhane add kora ache jeno auto install hoy
- */
-const REQUIRED_PACKAGES = [
-  "ytdl-core",
-  "@distube/ytdl-core",
-  "fb-downloader-scrapper",
-  "instagram-url-direct",
-  "systeminformation",
-  "os-utils",
-  "axios",
-  "fs-extra",
-  "canvas",
-  "path"
-];
-
-function checkAndInstall() {
-  log.info("Checking system dependencies...");
-  for (const pkg of REQUIRED_PACKAGES) {
-    try {
-      require.resolve(pkg);
-    } catch (e) {
-      log.warn(`Missing module [${pkg}]. Installing...`);
-      try {
-        // --no-save use korle package.json edit hoy na, install fast hoy
-        execSync(`npm install ${pkg} --no-save`, { stdio: "inherit" });
-      } catch (err) {
-        log.error(`Failed to install ${pkg}: ${err.message}`);
-      }
-    }
-  }
-  log.info("✅ All dependencies are ready!");
+        child.on("close", (code) => {
+                log.info("Project stopped with code:", code);
+                if (code === 2) {
+                        log.info("Project", "Restarting...");
+                        startProject();
+                }
+        });
 }
 
-// ─────────────────────────
-// Health Endpoint (for uptime)
-app.get("/", (req, res) => {
-  res.send("Siyuu GoatBot Running 🚀 (Auto-Restart: OFF)");
-});
-
-app.get("/status", (req, res) => {
-  res.json({
-    status: "online",
-    uptime: process.uptime().toFixed(0),
-    memory: (process.memoryUsage().rss >> 20) + " MB",
-    cpu: os.loadavg()[0].toFixed(2),
-    time: Date.now()
-  });
-});
-
-// Replit friendly listen
-app.listen(PORT, "0.0.0.0", () => {
-  log.info(`🌐 Web running on port ${PORT}`);
-});
-
-// ─────────────────────────
-// Bot Start Function
-function startBot() {
-  // Spawn korar age check kore nibe package missing ache kina
-  checkAndInstall();
-
-  const child = spawn("node", ["Goat.js"], {
-    cwd: __dirname,
-    stdio: "inherit",
-    shell: true,
-    env: process.env
-  });
-
-  log.info(`🚀 GoatBot starting...`);
-
-  child.on("close", (code) => {
-    if (code === 0) {
-      log.info("Bot exited normally.");
-    } else {
-      log.error(`Bot process exited with code ${code}. Auto-restart is disabled.`);
-    }
-    // Auto-restart bondho, tai process exit kore deya holo
-    process.exit(code);
-  });
-
-  child.on("error", (err) => {
-    log.error("Spawn error:", err.message);
-  });
-}
-
-// ─────────────────────────
-// Memory Guard
-setInterval(() => {
-  const used = process.memoryUsage().rss >> 20;
-  if (used > MEMORY_LIMIT_MB) {
-    log.warn(`💥 Memory exceeded (${used}MB). Killing process...`);
-    process.exit(1);
-  }
-}, MEMORY_CHECK_INTERVAL);
-
-// ─────────────────────────
-// Graceful Shutdown
-["SIGINT", "SIGTERM"].forEach(sig =>
-  process.on(sig, () => {
-    log.info(`👋 Shutdown signal received (${sig})`);
-    process.exit(0);
-  })
-);
-
-// ─────────────────────────
-// Start Bot
-startBot();
+startProject();
