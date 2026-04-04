@@ -25,7 +25,7 @@ module.exports = {
     name: "rbg",
     aliases: ["removebg", "nobg", "bgremove"],
     version: "2.0",
-    author: "siyuuu",
+    author: "NeoKEX",
     countDown: 10,
     role: 0,
     longDescription: "Removes the background from an image using AI.",
@@ -72,7 +72,7 @@ module.exports = {
       message.reaction("✅", event.messageID);
       
       await message.reply({
-        body: `🖼️ Background removed successfully!`,
+        body: `Background removed successfully!`,
         attachment: fs.createReadStream(tempFilePath)
       });
 

@@ -1,86 +1,50 @@
-const axios = require("axios");
-const fs = require("fs-extra");
-const path = require("path");
-
-const apiUrl = "https://raw.githubusercontent.com/Saim-x69x/sakura/main/ApiUrl.json";
-
-async function getApiUrl() {
-  const res = await axios.get(apiUrl);
-  return res.data.apiv3;
-}
-
-async function urlToBase64(url) {
-  const res = await axios.get(url, { responseType: "arraybuffer" });
-  return Buffer.from(res.data).toString("base64");
-}
-
+const axios = require('axios');
 module.exports = {
-  config: {
-    name: "edit",
-    version: "1.0",
-    author: "Siyuuu",
-    countDown: 5,
-    role: 0,
-    shortDescription: "Edit image ",
-    longDescription: "edit all image to text/prompt.",
-    category: "ai",
-    guide: "{p}edit <prompt> (reply to an image)"
-  },
-
-  onStart: async function ({ api, event, args, message }) {
-    const repliedImage = event.messageReply?.attachments?.[0];
-    const prompt = args.join(" ").trim();
-
-    if (!repliedImage || repliedImage.type !== "photo") {
-      return message.reply(
-        "❌ Please reply to image"
-      );
+    config: {
+        name: "nbpro",
+        version: "1.0",
+        aliases: ["edit", "nb", "nanobanana", "nanobanana-pro"],
+        author: "Tawsif~",
+        category: "ai",
+        countDown: 5,
+        role: 0,
+        description: {
+            en: "edit & generate images using Nano-banana Pro"
+        },
+        guide: {
+            en: " <prompt> | reply to image"
+        }
+    },
+    onStart: async function({
+        message, event, args
+    }) {
+        let prompt = args.join(" ");
+        if ((!event.messageReply && !event?.messageReply?.attachments[0]?.url && !prompt) || (event?.messageReply?.attachments[0]?.url && !prompt)) {
+            return message.reply('provide a prompt or reply to an image');
+        } else if (!event?.messageReply?.attachments[0] && prompt) {
+            let ratio = prompt?.split("--ar=")[1] || prompt?.split("--ar ")[1] || '1:1';
+            message.reaction("⏳", event.messageID);
+            try {
+                const gres = await axios.get(`https://tawsif.is-a.dev/gemini/nano-banana-pro-gen?prompt=${encodeURIComponent(prompt)}&ratio=${ratio}`);
+                message.reply({
+                    body: "✅ | Generated", attachment: await global.utils.getStreamFromURL(gres.data.imageUrl, 'gen.png')
+                });
+            } catch (e) {
+                message.reaction("❌", event.messageID);
+            }
+        } else {
+            let imgs = [];
+            for (let i = 0; i < event.messageReply.attachments.length; i++) {
+                imgs.push(event.messageReply.attachments[i].url);
+            }
+            try {
+                const eres = await axios.get(`https://tawsif.is-a.dev/gemini/nano-banana-pro-edit?prompt=${encodeURIComponent(prompt)}&urls=${encodeURIComponent(JSON.stringify(imgs))}`);
+                await message.reply({
+                    attachment: await global.utils.getStreamFromURL(eres.data.imageUrl, 'edit.png'), body: "✅ | image Edited"
+                });
+            } catch (error) {
+                message.reaction("❌", event.messageID);
+            }
+        }
     }
-
-    if (!prompt) {
-      return message.reply("❌ prompt?.");
-    }
-
-    const processingMsg = await message.reply("wait editing image....");
-
-    const imgPath = path.join(
-      __dirname,
-      "cache",
-      `${Date.now()}_edit.jpg`
-    );
-
-    try {
-      const API_URL = await getApiUrl();
-
-      const payload = {
-        prompt: `Edit the given image based on this description:\n${prompt}`,
-        images: [await urlToBase64(repliedImage.url)],
-        format: "jpg"
-      };
-
-      const res = await axios.post(API_URL, payload, {
-        responseType: "arraybuffer",
-        timeout: 180000
-      });
-
-      await fs.ensureDir(path.dirname(imgPath));
-      await fs.writeFile(imgPath, Buffer.from(res.data));
-
-      await api.unsendMessage(processingMsg.messageID);
-
-      await message.reply({
-        body: `✅ successfully\nPrompt: ${prompt}`,
-        attachment: fs.createReadStream(imgPath)
-      });
-
-    } catch (error) {
-      console.error("EDIT Error:", error?.response?.data || error.message);
-      await api.unsendMessage(processingMsg.messageID);
-      message.reply("❌ Failed , please again try ");
-    } finally {
-      if (fs.existsSync(imgPath)) {
-        await fs.remove(imgPath);
-      }
-    }
-  }
 };

@@ -9,7 +9,7 @@ module.exports = {
     name: "art",
     aliases: ["artv1", "draw"],
     version: "1.0", 
-    author: "siyuu",
+    author: "NeoKEX",
     countDown: 15,
     role: 0,
     longDescription: "Generate an image using the ArtV1 model.",
